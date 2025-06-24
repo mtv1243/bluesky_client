@@ -7,10 +7,10 @@ export default async function Homepage() {
 
   // const endpoint = 'wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post';
 
-  // const endpoint = 'wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post';
+  const endpoint = 'wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post';
 
   // Matt's DID
-  const endpoint = 'wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post&wantedDids=did:plc:py5rviowhwsqylunokea4n25';
+  // const endpoint = 'wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post&wantedDids=did:plc:py5rviowhwsqylunokea4n25';
 
   // You can add filters if desired:
   // const endpoint = 'wss://jetstream2.us-west.bsky.network/subscribe?wantedCollections=app.bsky.feed.post';
@@ -27,13 +27,12 @@ export default async function Homepage() {
     try {
       const msg = JSON.parse(data.toString());
 
-      console.log('Received message:', JSON.stringify(msg["commit"]["record"]["text"].includes("skywalker"), null, 2));
+      // console.log('Received message:', JSON.stringify(msg, null, 2));
       
-      // if(msg["kind"] === "commit" && msg.commit.record.text.includes('poop')) {
-
-      //   console.log('<<<<<<<<<Received poop message>>>>>>>>>>');
-
-      // }
+      // if(msg.commit.record.text && msg.commit.record.text.includes('kittens')) {
+        if(msg.commit && msg.commit.record && msg.commit.record.text && msg.commit.record.text.includes('kittens')) {
+        console.log("Received message:", JSON.stringify(msg));
+      }
     } catch (err) {
       console.error('Failed to parse message:', err);
     }
