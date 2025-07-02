@@ -1,13 +1,39 @@
 // src/app/page.tsx
 import { agent } from "./lib/api";
+import { pds } from "./lib/pds";
 import WebSocket from 'ws';
+import https from 'https';
 
 export default async function Homepage() {
 
 
   // const endpoint = 'wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post';
 
-  const endpoint = 'wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post';
+  const apiEndpoint = 'wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post';
+  
+  const pdsEndpoint = 'https://bsky.social/xrpc/com.atproto.server.createSession"';
+
+  const data = JSON.stringify({
+    "identifier": '', 
+    "password": ''
+  })
+
+  try {
+
+    const res = await pds.login({
+      identifier: 'khayadenna.bsky.social',
+      password: 'matt.myles'
+    })
+    console.log('>>>>', res);
+  }
+  catch (err) {
+    console.log(JSON.stringify(err));
+  }
+  
+  await pds.post({
+    text: 'Hello world!',
+    createdAt: new Date().toISOString()
+  })
 
   // Matt's DID
   // const endpoint = 'wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.bsky.feed.post&wantedDids=did:plc:py5rviowhwsqylunokea4n25';
@@ -17,7 +43,8 @@ export default async function Homepage() {
 
 // "ws://localhost:6008/subscribe?wantedCollections=app.bsky.feed.post&wantedCollections=app.bsky.feed.like&wantedCollections=app.bsky.graph.follow&wantedDids=did:plc:q6gjnaw2blty4crticxkmujt&cursor=1725519626134432"
 
-  const ws = new WebSocket(endpoint);
+/*
+  const ws = new WebSocket(apiEndpoint);
 
   ws.on('open', () => {
     console.log('Connected to Jetstream!');
@@ -45,7 +72,7 @@ export default async function Homepage() {
   ws.on('error', (err) => {
     console.error('WebSocket error:', err);
   });
-  
+  */
   // const feeds = await agent.app.bsky.unspecced
   // .getPopularFeedGenerators({
   //   limit: 10,
